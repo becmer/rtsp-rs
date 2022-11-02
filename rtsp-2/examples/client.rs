@@ -1,13 +1,16 @@
+use std::{
+    convert::TryFrom,
+    net::{IpAddr, SocketAddr},
+};
+
 use bytes::BytesMut;
 use futures::Future;
-use rtsp::client::Client;
-use rtsp::method::Method;
-use rtsp::request::Request;
-use rtsp::uri::request::URI;
-use rtsp::uri::{Host, RTSP_DEFAULT_PORT};
-use std::convert::TryFrom;
-use std::net::IpAddr;
-use std::net::SocketAddr;
+use rtsp_2::{
+    client::Client,
+    method::Method,
+    request::Request,
+    uri::{request::URI, Host, RTSP_DEFAULT_PORT},
+};
 
 fn main() {
     let uri_string = std::env::args()

@@ -1,18 +1,24 @@
+use std::{
+    io::{self, Read, Write},
+    mem,
+    net::TcpListener,
+    thread,
+    time::{Duration, Instant},
+};
+
 use bytes::BytesMut;
 use futures::{future, lazy, Async, Future, Poll};
-use rtsp::header::map::HeaderMapExtension;
-use rtsp::header::name::HeaderName;
-use rtsp::header::types::CSeq;
-use rtsp::method::Method;
-use rtsp::protocol::codec::decoder::request::Decoder as RequestDecoder;
-use rtsp::protocol::connection::{Connection, ConnectionHandle, OperationError, ShutdownType};
-use rtsp::request::Request;
-use rtsp::response::Response;
-use rtsp::uri::request::URI;
-use std::io::{self, Read, Write};
-use std::net::TcpListener;
-use std::time::{Duration, Instant};
-use std::{mem, thread};
+use rtsp_2::{
+    header::{map::HeaderMapExtension, name::HeaderName, types::CSeq},
+    method::Method,
+    protocol::{
+        codec::decoder::request::Decoder as RequestDecoder,
+        connection::{Connection, ConnectionHandle, OperationError, ShutdownType},
+    },
+    request::Request,
+    response::Response,
+    uri::request::URI,
+};
 use tokio::runtime::Runtime;
 use tokio_tcp::TcpStream;
 use tokio_timer::Delay;

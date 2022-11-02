@@ -1,10 +1,8 @@
+use std::{io, net::SocketAddr};
+
 use bytes::BytesMut;
 use futures::{future, Async, Future, Poll, Stream};
-use rtsp::protocol::connection::Connection;
-use rtsp::request::Request;
-use rtsp::response::Response;
-use std::io;
-use std::net::SocketAddr;
+use rtsp_2::{protocol::connection::Connection, request::Request, response::Response};
 use tokio::net::TcpListener;
 use tower_service::Service;
 
