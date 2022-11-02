@@ -1,7 +1,9 @@
-use std::convert::{Infallible, TryFrom};
-use std::error::Error;
-use std::fmt::{self, Display, Formatter, Write};
-use std::ops::{Deref, RangeInclusive};
+use std::{
+    convert::{Infallible, TryFrom},
+    error::Error,
+    fmt::{self, Display, Formatter, Write},
+    ops::{Deref, RangeInclusive},
+};
 
 use crate::syntax;
 

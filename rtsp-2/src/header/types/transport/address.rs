@@ -1,8 +1,11 @@
-use std::convert::{Infallible, TryFrom};
-use std::error::Error;
-use std::fmt::{self, Display, Formatter, Write};
-use std::ops::Deref;
-use std::str;
+use std::{
+    convert::{Infallible, TryFrom},
+    error::Error,
+    fmt::{self, Display, Formatter, Write},
+    ops::Deref,
+    str,
+};
+
 use uriparse::{authority, Host};
 
 use crate::syntax;

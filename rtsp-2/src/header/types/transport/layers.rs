@@ -1,7 +1,9 @@
-use std::convert::{Infallible, TryFrom};
-use std::error::Error;
-use std::fmt::{self, Display, Formatter};
-use std::ops::Deref;
+use std::{
+    convert::{Infallible, TryFrom},
+    error::Error,
+    fmt::{self, Display, Formatter},
+    ops::Deref,
+};
 
 /// The layers parameter in a transport specification that determines the number of multicast layers
 /// to be used for a media stream.

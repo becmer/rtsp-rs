@@ -3,11 +3,13 @@
 //! This module contains structs related to RTSP reason phrases, notably the [`ReasonPhrase`] type
 //! itself.
 
-use std::borrow::Cow;
-use std::convert::{Infallible, TryFrom};
-use std::error::Error;
-use std::fmt::{self, Display, Formatter};
-use std::str;
+use std::{
+    borrow::Cow,
+    convert::{Infallible, TryFrom},
+    error::Error,
+    fmt::{self, Display, Formatter},
+    str,
+};
 
 /// A wrapper type used to avoid users creating invalid reason phrases for the [`Response`] type.
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]

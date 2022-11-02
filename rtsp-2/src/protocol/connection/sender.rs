@@ -2,13 +2,16 @@
 //!
 //! This module contains the logic for sending all outgoing messagse through the connection sink.
 
-use futures::stream::Fuse;
-use futures::sync::mpsc::{unbounded, UnboundedReceiver, UnboundedSender};
-use futures::{try_ready, Async, AsyncSink, Future, Poll, Sink, Stream};
+use futures::{
+    stream::Fuse,
+    sync::mpsc::{unbounded, UnboundedReceiver, UnboundedSender},
+    try_ready, Async, AsyncSink, Future, Poll, Sink, Stream,
+};
 
-use crate::header::map::HeaderMapExtension;
-use crate::header::types::Date;
-use crate::protocol::codec::{Message, ProtocolError};
+use crate::{
+    header::{map::HeaderMapExtension, types::Date},
+    protocol::codec::{Message, ProtocolError},
+};
 
 /// The type responsible for sending all outgoing messages through the connection sink.
 ///
@@ -155,18 +158,19 @@ impl SenderHandle {
 
 #[cfg(test)]
 mod test {
-    use bytes::BytesMut;
-    use futures::sync::mpsc;
-    use futures::{Sink, Stream};
     use std::mem;
+
+    use bytes::BytesMut;
+    use futures::{sync::mpsc, Sink, Stream};
     use tokio::runtime::current_thread;
 
-    use crate::header::name::HeaderName;
-    use crate::method::Method;
-    use crate::protocol::codec::Message;
-    use crate::protocol::connection::sender::Sender;
-    use crate::request::Request;
-    use crate::uri::request::URI;
+    use crate::{
+        header::name::HeaderName,
+        method::Method,
+        protocol::{codec::Message, connection::sender::Sender},
+        request::Request,
+        uri::request::URI,
+    };
 
     #[test]
     fn test_sender_send_message() {

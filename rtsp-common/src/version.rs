@@ -1,6 +1,8 @@
-use std::convert::{Infallible, TryFrom};
-use std::error::Error;
-use std::fmt::{Display, Formatter, Result as FormatterResult};
+use std::{
+    convert::{Infallible, TryFrom},
+    error::Error,
+    fmt::{Display, Formatter, Result as FormatterResult},
+};
 
 #[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 #[non_exhaustive]

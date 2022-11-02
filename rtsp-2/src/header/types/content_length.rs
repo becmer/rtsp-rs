@@ -1,13 +1,13 @@
 use core::num::IntErrorKind;
-use std::convert::{Infallible, TryFrom};
-use std::error::Error;
-use std::fmt::{self, Display, Formatter};
-use std::iter::once;
-use std::ops::Deref;
+use std::{
+    convert::{Infallible, TryFrom},
+    error::Error,
+    fmt::{self, Display, Formatter},
+    iter::once,
+    ops::Deref,
+};
 
-use crate::header::map::TypedHeader;
-use crate::header::name::HeaderName;
-use crate::header::value::HeaderValue;
+use crate::header::{map::TypedHeader, name::HeaderName, value::HeaderValue};
 
 /// The maximum size the content length can be.
 pub const MAX_CONTENT_LENGTH: u64 = 9_999_999_999_999_999_999;

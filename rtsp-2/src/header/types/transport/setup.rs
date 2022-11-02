@@ -1,6 +1,8 @@
-use std::convert::{Infallible, TryFrom};
-use std::error::Error;
-use std::fmt::{self, Display, Formatter};
+use std::{
+    convert::{Infallible, TryFrom},
+    error::Error,
+    fmt::{self, Display, Formatter},
+};
 
 /// The setup parameter in a transport specification indicating the roles a client wishes to play in
 /// a TCP connection.

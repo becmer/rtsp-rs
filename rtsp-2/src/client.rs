@@ -1,14 +1,18 @@
+use std::{io, net::SocketAddr};
+
 use bytes::BytesMut;
 use futures::future::Future;
-use std::io;
-use std::net::SocketAddr;
 use tokio_executor::{DefaultExecutor, Executor};
 use tokio_tcp::TcpStream;
 
-use crate::protocol::connection::{Connection, ConnectionHandle, OperationError};
-use crate::protocol::service::EmptyService;
-use crate::request::Request;
-use crate::response::Response;
+use crate::{
+    protocol::{
+        connection::{Connection, ConnectionHandle, OperationError},
+        service::EmptyService,
+    },
+    request::Request,
+    response::Response,
+};
 
 pub struct Client {
     handle: ConnectionHandle,

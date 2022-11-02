@@ -1,9 +1,12 @@
+use std::{
+    convert::{Infallible, TryFrom},
+    error::Error,
+    fmt::{self, Display, Formatter},
+    ops::Deref,
+    str,
+};
+
 use linked_hash_set::LinkedHashSet;
-use std::convert::{Infallible, TryFrom};
-use std::error::Error;
-use std::fmt::{self, Display, Formatter};
-use std::ops::Deref;
-use std::str;
 
 use crate::syntax;
 

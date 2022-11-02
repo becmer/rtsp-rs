@@ -1,6 +1,8 @@
-use std::convert::{Infallible, TryFrom};
-use std::error::Error;
-use std::fmt::{self, Display, Formatter};
+use std::{
+    convert::{Infallible, TryFrom},
+    error::Error,
+    fmt::{self, Display, Formatter},
+};
 
 /// The connection parameter in a transport specification indicating client's preference for
 /// connection usage.

@@ -1,13 +1,20 @@
-use bytes::BytesMut;
-use futures::sync::mpsc::UnboundedSender;
-use futures::sync::oneshot::{self, Canceled};
-use futures::{Async, Future, Poll};
 use std::time::{Duration, Instant};
+
+use bytes::BytesMut;
+use futures::{
+    sync::{
+        mpsc::UnboundedSender,
+        oneshot::{self, Canceled},
+    },
+    Async, Future, Poll,
+};
 use tokio_timer::Delay;
 
-use crate::header::types::CSeq;
-use crate::protocol::connection::{OperationError, RequestTimeoutType};
-use crate::response::Response;
+use crate::{
+    header::types::CSeq,
+    protocol::connection::{OperationError, RequestTimeoutType},
+    response::Response,
+};
 
 /// The default timeout for the maximum amount of time that we will wait for a request.
 pub const REQUEST_MAX_TIMEOUT_DEFAULT_DURATION: Duration = Duration::from_secs(20);

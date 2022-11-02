@@ -3,18 +3,25 @@
 //! This module contains structs related to RTSP responses, notably the [`Response`] type itself as
 //! well as a builder to create responses.
 
+use std::{
+    convert::Infallible,
+    error::Error,
+    fmt::{self, Display, Formatter},
+};
+
 use bytes::BytesMut;
 use lazy_static::lazy_static;
-use std::convert::Infallible;
-use std::error::Error;
-use std::fmt::{self, Display, Formatter};
 
-use crate::header::map::{HeaderMap, HeaderMapExtension, TypedHeader};
-use crate::header::name::HeaderName;
-use crate::header::value::HeaderValue;
-use crate::reason::ReasonPhrase;
-use crate::status::StatusCode;
-use crate::version::Version;
+use crate::{
+    header::{
+        map::{HeaderMap, HeaderMapExtension, TypedHeader},
+        name::HeaderName,
+        value::HeaderValue,
+    },
+    reason::ReasonPhrase,
+    status::StatusCode,
+    version::Version,
+};
 
 lazy_static! {
     pub(crate) static ref BAD_REQUEST_RESPONSE: Response<BytesMut> =

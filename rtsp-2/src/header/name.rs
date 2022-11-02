@@ -1,10 +1,12 @@
 //! Header Name
 
-use std::convert::{Infallible, TryFrom};
-use std::error::Error;
-use std::fmt::{self, Debug, Display, Formatter};
-use std::hash::{Hash, Hasher};
-use std::str;
+use std::{
+    convert::{Infallible, TryFrom},
+    error::Error,
+    fmt::{self, Debug, Display, Formatter},
+    hash::{Hash, Hasher},
+    str,
+};
 
 use crate::syntax;
 

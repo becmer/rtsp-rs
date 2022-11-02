@@ -1,16 +1,18 @@
-use ordered_multimap::list_ordered_multimap::{
-    Entry as MultimapEntry, EntryValues as MultimapEntryValues,
-    EntryValuesDrain as MultimapEntryValuesDrain, EntryValuesMut as MultimapEntryValuesMut,
-    Iter as MultimapIter, IterMut as MultimapIterMut, KeyValuesDrain as MultimapKeyValuesDrain,
-    KeyValuesEntryDrain as MultimapKeyValuesEntryDrain, KeyValuesMut as MultimapKeyValuesMut,
-    OccupiedEntry as MultimapOccupiedEntry, VacantEntry as MultimapVacantEntry,
-    Values as MultimapKeyValues, Values as MultimapValues, ValuesMut as MultimapValuesMut,
-};
-use ordered_multimap::ListOrderedMultimap;
 use std::mem;
 
-use crate::header::name::HeaderName;
-use crate::header::value::HeaderValue;
+use ordered_multimap::{
+    list_ordered_multimap::{
+        Entry as MultimapEntry, EntryValues as MultimapEntryValues,
+        EntryValuesDrain as MultimapEntryValuesDrain, EntryValuesMut as MultimapEntryValuesMut,
+        Iter as MultimapIter, IterMut as MultimapIterMut, KeyValuesDrain as MultimapKeyValuesDrain,
+        KeyValuesEntryDrain as MultimapKeyValuesEntryDrain, KeyValuesMut as MultimapKeyValuesMut,
+        OccupiedEntry as MultimapOccupiedEntry, VacantEntry as MultimapVacantEntry,
+        Values as MultimapKeyValues, Values as MultimapValues, ValuesMut as MultimapValuesMut,
+    },
+    ListOrderedMultimap,
+};
+
+use crate::header::{name::HeaderName, value::HeaderValue};
 
 pub type Entry<'map> = MultimapEntry<'map, HeaderName, HeaderValue>;
 pub type EntryValues<'map> = MultimapEntryValues<'map, HeaderName, HeaderValue>;

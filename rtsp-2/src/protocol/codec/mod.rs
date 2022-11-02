@@ -2,27 +2,36 @@
 pub mod decoder;
 pub mod encoder;
 
+use std::{
+    convert::Infallible,
+    error::Error,
+    fmt::{self, Display, Formatter},
+    io,
+    sync::Arc,
+};
+
 use bytes::BytesMut;
 use futures::sync::mpsc::UnboundedSender;
-use std::convert::Infallible;
-use std::error::Error;
-use std::fmt::{self, Display, Formatter};
-use std::io;
-use std::sync::Arc;
 use tokio_codec::{Decoder, Encoder};
 
-use crate::protocol::codec::decoder::request::{
-    DecodeError as RequestDecodeError, DecodeState as RequestDecodeState, Decoder as RequestDecoder,
+use crate::{
+    protocol::codec::{
+        decoder::{
+            request::{
+                DecodeError as RequestDecodeError, DecodeState as RequestDecodeState,
+                Decoder as RequestDecoder,
+            },
+            response::{
+                DecodeError as ResponseDecodeError, DecodeState as ResponseDecodeState,
+                Decoder as ResponseDecoder,
+            },
+            DecodeResult,
+        },
+        encoder::{request, response},
+    },
+    request::Request,
+    response::Response,
 };
-use crate::protocol::codec::decoder::response::{
-    DecodeError as ResponseDecodeError, DecodeState as ResponseDecodeState,
-    Decoder as ResponseDecoder,
-};
-use crate::protocol::codec::decoder::DecodeResult;
-use crate::protocol::codec::encoder::request;
-use crate::protocol::codec::encoder::response;
-use crate::request::Request;
-use crate::response::Response;
 
 /// The minimum amount of bytes needed in the information line in order to differentiate between
 /// requests and responses.
@@ -363,21 +372,21 @@ impl From<ResponseDecodeError> for DecodeError {
 
 #[cfg(test)]
 mod test {
-    use bytes::BytesMut;
-    use futures::stream::Stream;
-    use futures::sync::mpsc::unbounded;
     use std::convert::TryFrom;
+
+    use bytes::BytesMut;
+    use futures::{stream::Stream, sync::mpsc::unbounded};
     use tokio::runtime::current_thread::Runtime;
     use tokio_codec::{Decoder, Encoder};
 
-    use crate::header::name::HeaderName;
-    use crate::header::types::ContentLength;
-    use crate::header::value::HeaderValue;
-    use crate::method::Method;
-    use crate::protocol::codec::{Codec, CodecEvent, Message};
-    use crate::request::Request;
-    use crate::response::Response;
-    use crate::uri::request::URI;
+    use crate::{
+        header::{name::HeaderName, types::ContentLength, value::HeaderValue},
+        method::Method,
+        protocol::codec::{Codec, CodecEvent, Message},
+        request::Request,
+        response::Response,
+        uri::request::URI,
+    };
 
     #[test]
     fn test_codec_decoding() {

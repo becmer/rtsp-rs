@@ -1,18 +1,18 @@
 use core::num::IntErrorKind;
-use std::convert::{Infallible, TryFrom};
-use std::error::Error;
-use std::fmt::{self, Display, Formatter};
-use std::iter::once;
-use std::time::Duration;
-
-use crate::header::map::TypedHeader;
-use crate::header::name::HeaderName;
-use crate::header::value::HeaderValue;
-use crate::session::Session as SessionData;
-use crate::session::{SessionID, SessionIDError};
-use crate::syntax;
+use std::{
+    convert::{Infallible, TryFrom},
+    error::Error,
+    fmt::{self, Display, Formatter},
+    iter::once,
+    time::Duration,
+};
 
 pub use crate::session::{DEFAULT_SESSION_TIMEOUT, MAX_SESSION_TIMEOUT};
+use crate::{
+    header::{map::TypedHeader, name::HeaderName, value::HeaderValue},
+    session::{Session as SessionData, SessionID, SessionIDError},
+    syntax,
+};
 
 /// The `"Session"` typed header as described by
 /// [RFC7826](https://tools.ietf.org/html/rfc7826#section-18.49).

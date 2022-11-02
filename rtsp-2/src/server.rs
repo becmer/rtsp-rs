@@ -1,25 +1,30 @@
+use std::{
+    collections::HashMap,
+    convert::TryFrom,
+    error::Error,
+    net::SocketAddr,
+    sync::{Arc, Mutex},
+    time::Duration,
+};
+
 use bytes::BytesMut;
 use chrono::{self, offset, DateTime, Utc};
-use futures::Stream;
-use futures::{future, Async, Future, Poll};
-use std::collections::HashMap;
-use std::convert::TryFrom;
-use std::error::Error;
-use std::net::SocketAddr;
-use std::sync::{Arc, Mutex};
-use std::time::Duration;
+use futures::{future, Async, Future, Poll, Stream};
 use tokio_tcp::TcpListener;
 use tower_service::Service;
 
-use crate::header::map::HeaderMapExtension;
-use crate::header::types::{AcceptRanges, Public};
-use crate::method::Method;
-use crate::protocol::connection::Connection;
-use crate::protocol::connection::ConnectionHandle;
-use crate::request::Request;
-use crate::response::{Response, BAD_REQUEST_RESPONSE, NOT_IMPLEMENTED_RESPONSE};
-use crate::session::{Session, SessionID, SessionIDError, DEFAULT_SESSION_TIMEOUT};
-use crate::status::StatusCode;
+use crate::{
+    header::{
+        map::HeaderMapExtension,
+        types::{AcceptRanges, Public},
+    },
+    method::Method,
+    protocol::connection::{Connection, ConnectionHandle},
+    request::Request,
+    response::{Response, BAD_REQUEST_RESPONSE, NOT_IMPLEMENTED_RESPONSE},
+    session::{Session, SessionID, SessionIDError, DEFAULT_SESSION_TIMEOUT},
+    status::StatusCode,
+};
 
 pub const SUPPORTED_METHODS: [Method; 2] = [Method::Options, Method::Setup];
 

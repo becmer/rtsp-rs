@@ -1,7 +1,10 @@
+use std::{
+    error::Error,
+    fmt::{self, Display, Formatter},
+    str::Chars,
+};
+
 use chrono::{DateTime, Datelike, FixedOffset, TimeZone, Utc, Weekday};
-use std::error::Error;
-use std::fmt::{self, Display, Formatter};
-use std::str::Chars;
 
 /// A generic error type indicating that the parsing of the datetime failed.
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]

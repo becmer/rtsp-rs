@@ -1,29 +1,43 @@
+use std::{
+    collections::{hash_map::Entry, HashMap},
+    error::Error,
+    fmt::{self, Display, Formatter},
+    mem,
+    time::{Duration, Instant},
+};
+
 use bytes::BytesMut;
 use fnv::FnvBuildHasher;
-use futures::stream::Fuse;
-use futures::sync::mpsc::{Sender, UnboundedReceiver};
-use futures::sync::oneshot;
-use futures::{Async, AsyncSink, Future, Poll, Sink, Stream};
-use std::collections::hash_map::Entry;
-use std::collections::HashMap;
-use std::error::Error;
-use std::fmt::{self, Display, Formatter};
-use std::mem;
-use std::time::{Duration, Instant};
+use futures::{
+    stream::Fuse,
+    sync::{
+        mpsc::{Sender, UnboundedReceiver},
+        oneshot,
+    },
+    Async, AsyncSink, Future, Poll, Sink, Stream,
+};
 use tokio_timer::Delay;
 
-use crate::header::map::HeaderMapExtension;
-use crate::header::types::CSeq;
-use crate::protocol::codec::decoder::request::DecodeError as RequestDecodeError;
-use crate::protocol::codec::{CodecEvent, DecodeError, Message, ProtocolError};
-use crate::protocol::connection::pending::{PendingRequestResponse, PendingRequestUpdate};
-use crate::protocol::connection::sender::SenderHandle;
-use crate::request::Request;
-use crate::response::{
-    Response, BAD_REQUEST_RESPONSE, FORBIDDEN_RESPONSE, REQUEST_MESSAGE_BODY_TOO_LARGE_RESPONSE,
-    REQUEST_URI_TOO_LONG_RESPONSE, VERSION_NOT_SUPPORTED_RESPONSE,
+use crate::{
+    header::{map::HeaderMapExtension, types::CSeq},
+    protocol::{
+        codec::{
+            decoder::request::DecodeError as RequestDecodeError, CodecEvent, DecodeError, Message,
+            ProtocolError,
+        },
+        connection::{
+            pending::{PendingRequestResponse, PendingRequestUpdate},
+            sender::SenderHandle,
+        },
+    },
+    request::Request,
+    response::{
+        Response, BAD_REQUEST_RESPONSE, FORBIDDEN_RESPONSE,
+        REQUEST_MESSAGE_BODY_TOO_LARGE_RESPONSE, REQUEST_URI_TOO_LONG_RESPONSE,
+        VERSION_NOT_SUPPORTED_RESPONSE,
+    },
+    status::StatusCode,
 };
-use crate::status::StatusCode;
 
 /// Receiver responsible for processing incoming messages, including forwarding requests to the
 /// request handler and matching responses to pending requests.

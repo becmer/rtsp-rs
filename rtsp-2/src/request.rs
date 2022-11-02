@@ -3,16 +3,22 @@
 //! This module contains structs related to RTSP requests, notably the [`Request`] type itself as
 //! well as a builder to create requests.
 
-use std::convert::Infallible;
-use std::error::Error;
-use std::fmt::{self, Display, Formatter};
+use std::{
+    convert::Infallible,
+    error::Error,
+    fmt::{self, Display, Formatter},
+};
 
-use crate::header::map::{HeaderMap, HeaderMapExtension, TypedHeader};
-use crate::header::name::HeaderName;
-use crate::header::value::HeaderValue;
-use crate::method::Method;
-use crate::uri::request::URI;
-use crate::version::Version;
+use crate::{
+    header::{
+        map::{HeaderMap, HeaderMapExtension, TypedHeader},
+        name::HeaderName,
+        value::HeaderValue,
+    },
+    method::Method,
+    uri::request::URI,
+    version::Version,
+};
 
 /// Represents an RTSP request.
 ///

@@ -4,39 +4,55 @@ mod receiver;
 mod sender;
 mod shutdown;
 
-pub use self::handler::RequestHandler;
-pub use self::pending::{
-    RequestOptions, RequestOptionsBuilder, SendRequest, REQUEST_MAX_TIMEOUT_DEFAULT_DURATION,
-    REQUEST_TIMEOUT_DEFAULT_DURATION,
+use std::{
+    error::Error,
+    fmt::{self, Display, Formatter},
+    mem,
+    sync::{
+        atomic::{AtomicBool, Ordering},
+        Arc, Mutex,
+    },
+    time::Duration,
 };
-pub use self::sender::SenderHandle;
-pub use self::shutdown::ShutdownType;
 
 use bytes::BytesMut;
-use futures::future::{Either, Shared};
-use futures::stream::{SplitSink, SplitStream};
-use futures::sync::mpsc::{self, UnboundedSender};
-use futures::sync::oneshot;
-use futures::{future, Async, Future, Poll, Stream};
-use std::error::Error;
-use std::fmt::{self, Display, Formatter};
-use std::mem;
-use std::sync::atomic::{AtomicBool, Ordering};
-use std::sync::{Arc, Mutex};
-use std::time::Duration;
+use futures::{
+    future,
+    future::{Either, Shared},
+    stream::{SplitSink, SplitStream},
+    sync::{
+        mpsc::{self, UnboundedSender},
+        oneshot,
+    },
+    Async, Future, Poll, Stream,
+};
 use tokio_codec::{Decoder, Framed};
 use tokio_io::{AsyncRead, AsyncWrite};
 use tower_service::Service;
 
-use crate::header::map::HeaderMapExtension;
-use crate::header::types::CSeq;
-use crate::protocol::codec::{Codec, Message};
-use crate::protocol::connection::pending::PendingRequestUpdate;
-use crate::protocol::connection::receiver::Receiver;
-use crate::protocol::connection::sender::Sender;
-use crate::protocol::connection::shutdown::{ShutdownHandler, ShutdownState};
-use crate::request::Request;
-use crate::response::Response;
+pub use self::{
+    handler::RequestHandler,
+    pending::{
+        RequestOptions, RequestOptionsBuilder, SendRequest, REQUEST_MAX_TIMEOUT_DEFAULT_DURATION,
+        REQUEST_TIMEOUT_DEFAULT_DURATION,
+    },
+    sender::SenderHandle,
+    shutdown::ShutdownType,
+};
+use crate::{
+    header::{map::HeaderMapExtension, types::CSeq},
+    protocol::{
+        codec::{Codec, Message},
+        connection::{
+            pending::PendingRequestUpdate,
+            receiver::Receiver,
+            sender::Sender,
+            shutdown::{ShutdownHandler, ShutdownState},
+        },
+    },
+    request::Request,
+    response::Response,
+};
 
 pub const DEFAULT_CONTINUE_WAIT_DURATION: Duration = Duration::from_secs(5);
 pub const DEFAULT_DECODE_TIMEOUT_DURATION: Duration = Duration::from_secs(10);
@@ -855,13 +871,17 @@ mod test {
     use tokio_codec::Framed;
     use tokio_tcp::TcpStream;
 
-    use crate::protocol::codec::Codec;
-    use crate::protocol::connection::handler::RequestHandler;
-    use crate::protocol::connection::pending::SendRequest;
-    use crate::protocol::connection::receiver::Receiver;
-    use crate::protocol::connection::sender::{Sender, SenderHandle};
-    use crate::protocol::connection::{Connection, ConnectionHandle, ConnectionShutdownReceiver};
-    use crate::protocol::service::EmptyService;
+    use crate::protocol::{
+        codec::Codec,
+        connection::{
+            handler::RequestHandler,
+            pending::SendRequest,
+            receiver::Receiver,
+            sender::{Sender, SenderHandle},
+            Connection, ConnectionHandle, ConnectionShutdownReceiver,
+        },
+        service::EmptyService,
+    };
 
     #[test]
     fn test_bounds() {

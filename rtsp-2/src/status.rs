@@ -17,11 +17,13 @@
 //! assert_eq!(StatusCode::OK.class(), StatusCodeClass::Success);
 //! ```
 
-use std::cmp::Ordering;
-use std::convert::{Infallible, TryFrom};
-use std::error::Error;
-use std::fmt::{self, Debug, Display, Formatter};
-use std::ops::Deref;
+use std::{
+    cmp::Ordering,
+    convert::{Infallible, TryFrom},
+    error::Error,
+    fmt::{self, Debug, Display, Formatter},
+    ops::Deref,
+};
 
 use crate::reason::ReasonPhrase;
 

@@ -1,15 +1,18 @@
+use std::{
+    convert::TryFrom,
+    fmt::{self, Display, Formatter},
+    iter::{once, FromIterator},
+    ops::{Deref, DerefMut},
+    str,
+};
+
 use itertools::Itertools;
 use linked_hash_set::LinkedHashSet;
-use std::convert::TryFrom;
-use std::fmt::{self, Display, Formatter};
-use std::iter::{once, FromIterator};
-use std::ops::{Deref, DerefMut};
-use std::str;
 
-use crate::header::map::TypedHeader;
-use crate::header::name::HeaderName;
-use crate::header::value::HeaderValue;
-use crate::syntax;
+use crate::{
+    header::{map::TypedHeader, name::HeaderName, value::HeaderValue},
+    syntax,
+};
 
 /// The `"Accept-Ranges"` typed header as described by
 /// [RFC7826](https://tools.ietf.org/html/rfc7826#section-18.5).

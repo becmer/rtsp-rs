@@ -2,26 +2,31 @@
 //!
 //! This module contains the logic for servicing incoming requests and mapping them to responses.
 
-use bytes::BytesMut;
-use futures::stream::Fuse;
-use futures::sync::mpsc::Receiver;
-use futures::sync::oneshot;
-use futures::{try_ready, Async, Future, Poll, Stream};
 use std::time::{Duration, Instant};
+
+use bytes::BytesMut;
+use futures::{
+    stream::Fuse,
+    sync::{mpsc::Receiver, oneshot},
+    try_ready, Async, Future, Poll, Stream,
+};
 use tokio_timer::Delay;
 use tower_service::Service;
 
-use crate::header::map::HeaderMapExtension;
-use crate::header::name::HeaderName;
-use crate::header::types::{CSeq, ContentLength};
-use crate::protocol::codec::Message;
-use crate::protocol::connection::sender::SenderHandle;
-use crate::request::Request;
-use crate::response::{
-    Response, BAD_REQUEST_RESPONSE, CONTINUE_RESPONSE, INTERNAL_SERVER_ERROR_RESPONSE,
-    NOT_IMPLEMENTED_RESPONSE,
+use crate::{
+    header::{
+        map::HeaderMapExtension,
+        name::HeaderName,
+        types::{CSeq, ContentLength},
+    },
+    protocol::{codec::Message, connection::sender::SenderHandle},
+    request::Request,
+    response::{
+        Response, BAD_REQUEST_RESPONSE, CONTINUE_RESPONSE, INTERNAL_SERVER_ERROR_RESPONSE,
+        NOT_IMPLEMENTED_RESPONSE,
+    },
+    uri::Scheme,
 };
-use crate::uri::Scheme;
 
 /// The type responsible for servicing incoming requests and sending responses back.
 #[derive(Debug)]
@@ -285,34 +290,40 @@ where
 
 #[cfg(test)]
 mod test {
+    use std::{
+        convert::TryFrom,
+        io, mem,
+        time::{Duration, Instant},
+    };
+
     use bytes::BytesMut;
-    use futures::future;
-    use futures::sync::{mpsc, oneshot};
-    use futures::{Async, Future, Poll, Stream};
-    use std::convert::TryFrom;
-    use std::time::{Duration, Instant};
-    use std::{io, mem};
+    use futures::{
+        future,
+        sync::{mpsc, oneshot},
+        Async, Future, Poll, Stream,
+    };
     use tokio::runtime::current_thread;
     use tokio_timer::Delay;
     use tower_service::Service;
 
-    use crate::header::types::{CSeq, ContentLength};
-    use crate::method::Method;
-    use crate::protocol::codec::Message;
-    use crate::protocol::connection::handler::RequestHandler;
-    use crate::protocol::connection::sender::SenderHandle;
-    use crate::request::Request;
-    use crate::response::{
-        Response, BAD_REQUEST_RESPONSE, CONTINUE_RESPONSE, NOT_IMPLEMENTED_RESPONSE,
+    use crate::{
+        header::types::{CSeq, ContentLength},
+        method::Method,
+        protocol::{
+            codec::Message,
+            connection::{handler::RequestHandler, sender::SenderHandle},
+        },
+        request::Request,
+        response::{Response, BAD_REQUEST_RESPONSE, CONTINUE_RESPONSE, NOT_IMPLEMENTED_RESPONSE},
+        uri::request::URI,
     };
-    use crate::uri::request::URI;
 
     struct DelayedTestService;
 
     impl Service<Request<BytesMut>> for DelayedTestService {
         type Response = Response<BytesMut>;
         type Error = io::Error;
-        type Future = Box<Future<Item = Self::Response, Error = Self::Error> + Send + 'static>;
+        type Future = Box<dyn Future<Item = Self::Response, Error = Self::Error> + Send + 'static>;
 
         fn call(&mut self, _: Request<BytesMut>) -> Self::Future {
             Box::new(
@@ -335,7 +346,7 @@ mod test {
     impl Service<Request<BytesMut>> for TestService {
         type Response = Response<BytesMut>;
         type Error = io::Error;
-        type Future = Box<Future<Item = Self::Response, Error = Self::Error> + Send + 'static>;
+        type Future = Box<dyn Future<Item = Self::Response, Error = Self::Error> + Send + 'static>;
 
         fn call(&mut self, _: Request<BytesMut>) -> Self::Future {
             Box::new(future::ok(

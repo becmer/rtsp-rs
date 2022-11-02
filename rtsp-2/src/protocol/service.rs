@@ -1,10 +1,10 @@
+use std::io;
+
 use bytes::BytesMut;
 use futures::{future, Async, Future, Poll};
-use std::io;
 use tower_service::Service;
 
-use crate::request::Request;
-use crate::response::Response;
+use crate::{request::Request, response::Response};
 
 pub struct EmptyService;
 

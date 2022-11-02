@@ -1,14 +1,15 @@
 use core::num::IntErrorKind;
-use rand::{self, Rng};
-use std::convert::{Infallible, TryFrom};
-use std::error::Error;
-use std::fmt::{self, Display, Formatter};
-use std::iter::once;
-use std::ops::{Add, Deref, Sub};
+use std::{
+    convert::{Infallible, TryFrom},
+    error::Error,
+    fmt::{self, Display, Formatter},
+    iter::once,
+    ops::{Add, Deref, Sub},
+};
 
-use crate::header::map::TypedHeader;
-use crate::header::name::HeaderName;
-use crate::header::value::HeaderValue;
+use rand::{self, Rng};
+
+use crate::header::{map::TypedHeader, name::HeaderName, value::HeaderValue};
 
 /// The maximum size the CSeq can be.
 pub const MAX_CSEQ: u32 = 999_999_999;

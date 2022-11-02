@@ -1,6 +1,8 @@
-use std::convert::{Infallible, TryFrom};
-use std::error::Error;
-use std::fmt::{self, Display, Formatter};
+use std::{
+    convert::{Infallible, TryFrom},
+    error::Error,
+    fmt::{self, Display, Formatter},
+};
 
 /// The delivery type parameter in a transport specification indicating whether unicast or multicast
 /// delivery will be attempted.

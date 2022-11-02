@@ -31,11 +31,14 @@
 //! assert_eq!(uri.to_string(), "rtsp://127.0.0.1/");
 //! ```
 
+use std::{
+    convert::{Infallible, TryFrom},
+    error::Error,
+    fmt::{self, Display, Formatter, Write},
+    mem,
+};
+
 use lazy_static::lazy_static;
-use std::convert::{Infallible, TryFrom};
-use std::error::Error;
-use std::fmt::{self, Display, Formatter, Write};
-use std::mem;
 use uriparse::{
     Host as GenericHost, Scheme as GenericScheme, URIReference, URIReferenceError,
     URI as GenericURI,

@@ -4,9 +4,9 @@
 //! module only handles the shutdown of the the [`Connection`] task and is not involved with the
 //! shutdown of the [`RequestHandler`] task.
 
-use futures::sync::oneshot;
-use futures::{try_ready, Async, Future, Poll};
 use std::time::{Duration, Instant};
+
+use futures::{sync::oneshot, try_ready, Async, Future, Poll};
 use tokio_timer::Delay;
 
 /// The type responsible for managing deliberate shutdown of connections.
@@ -233,11 +233,16 @@ pub enum ShutdownType {
 
 #[cfg(test)]
 mod test {
-    use futures::future::{self, Either};
-    use futures::sync::oneshot;
-    use futures::Future;
-    use std::mem;
-    use std::time::{Duration, Instant};
+    use std::{
+        mem,
+        time::{Duration, Instant},
+    };
+
+    use futures::{
+        future::{self, Either},
+        sync::oneshot,
+        Future,
+    };
     use tokio::runtime::current_thread;
     use tokio_timer::Delay;
 

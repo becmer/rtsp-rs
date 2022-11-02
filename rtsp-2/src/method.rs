@@ -14,11 +14,13 @@
 //! assert_eq!(Method::Describe.as_str(), "DESCRIBE");
 //! ```
 
-use std::convert::{AsRef, Infallible, TryFrom};
-use std::error::Error;
-use std::fmt::{self, Debug, Display, Formatter};
-use std::ops::Deref;
-use std::str;
+use std::{
+    convert::{AsRef, Infallible, TryFrom},
+    error::Error,
+    fmt::{self, Debug, Display, Formatter},
+    ops::Deref,
+    str,
+};
 
 use crate::syntax;
 

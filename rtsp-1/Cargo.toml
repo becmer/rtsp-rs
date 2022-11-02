@@ -1,6 +1,6 @@
 [package]
 authors = ["Scott Godwin <sgodwincs@gmail.com>"]
-edition = "2018"
+edition = "2021"
 name = "rtsp-1"
 version = "0.1.0"
 

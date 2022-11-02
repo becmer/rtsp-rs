@@ -29,7 +29,7 @@ struct DummyService;
 impl Service<Request<BytesMut>> for DummyService {
     type Response = Response<BytesMut>;
     type Error = io::Error;
-    type Future = Box<Future<Item = Self::Response, Error = Self::Error> + Send + 'static>;
+    type Future = Box<dyn Future<Item = Self::Response, Error = Self::Error> + Send + 'static>;
 
     fn call(&mut self, request: Request<BytesMut>) -> Self::Future {
         let mut builder = Response::builder();

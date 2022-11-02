@@ -1,11 +1,13 @@
+use std::{
+    convert::TryFrom,
+    error::Error,
+    fmt::{self, Display, Formatter},
+    str,
+    time::Duration,
+};
+
 use chrono::{offset, DateTime, Utc};
-use rand::seq::SliceRandom;
-use rand::thread_rng;
-use std::convert::TryFrom;
-use std::error::Error;
-use std::fmt::{self, Display, Formatter};
-use std::str;
-use std::time::Duration;
+use rand::{seq::SliceRandom, thread_rng};
 
 pub const DEFAULT_SESSION_TIMEOUT: Duration = Duration::from_secs(60);
 pub const MAX_SESSION_TIMEOUT: u64 = 9_999_999_999_999_999_999;
