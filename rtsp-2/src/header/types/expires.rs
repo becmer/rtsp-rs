@@ -1,14 +1,19 @@
-use chrono::{DateTime, TimeZone, Utc};
-use std::convert::Infallible;
-use std::error::Error;
-use std::fmt::{self, Display, Formatter};
-use std::iter::once;
-use std::ops::Deref;
+use std::{
+    convert::Infallible,
+    error::Error,
+    fmt::{self, Display, Formatter},
+    iter::once,
+    ops::Deref,
+};
 
-use crate::header::common::date::{self, DateTimeError};
-use crate::header::map::TypedHeader;
-use crate::header::name::HeaderName;
-use crate::header::value::HeaderValue;
+use chrono::{DateTime, TimeZone, Utc};
+
+use crate::header::{
+    common::date::{self, DateTimeError},
+    map::TypedHeader,
+    name::HeaderName,
+    value::HeaderValue,
+};
 
 /// The `"Expires"` typed header as described by
 /// [RFC7826](https://tools.ietf.org/html/rfc7826#section-18.21).
@@ -115,9 +120,6 @@ impl TypedHeader for Expires {
     /// # Examples
     ///
     /// ```
-    /// # extern crate chrono;
-    /// # extern crate rtsp;
-    /// #
     /// use chrono::{TimeZone, Utc};
     /// use std::convert::TryFrom;
     ///
@@ -156,9 +158,6 @@ impl TypedHeader for Expires {
     /// # Examples
     ///
     /// ```
-    /// # extern crate chrono;
-    /// # extern crate rtsp;
-    /// #
     /// use chrono::{TimeZone, Utc};
     /// use std::convert::TryFrom;
     ///

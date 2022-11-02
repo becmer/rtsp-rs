@@ -1,19 +1,15 @@
-extern crate bytes;
-#[macro_use]
-extern crate criterion;
-extern crate rtsp;
+use std::convert::TryFrom;
 
 use bytes::BytesMut;
-use criterion::Criterion;
-use rtsp::header::name::HeaderName;
-use rtsp::header::value::HeaderValue;
-use rtsp::method::Method;
-use rtsp::protocol::codec::encoder::request;
-use rtsp::protocol::codec::encoder::response;
-use rtsp::request::Request;
-use rtsp::response::Response;
-use rtsp::uri::request::URI;
-use std::convert::TryFrom;
+use criterion::{criterion_group, criterion_main, Criterion};
+use rtsp::{
+    header::{name::HeaderName, value::HeaderValue},
+    method::Method,
+    protocol::codec::encoder::{request, response},
+    request::Request,
+    response::Response,
+    uri::request::URI,
+};
 
 fn encode_benchmark(criterion: &mut Criterion) {
     criterion.bench_function("encode request", |bencher| {

@@ -7,9 +7,6 @@
 //! # Examples
 //!
 //! ```
-//! # extern crate bytes;
-//! # extern crate rtsp;
-//! #
 //! use bytes::BytesMut;
 //! use std::convert::TryFrom;
 //!
@@ -37,25 +34,31 @@
 //! # }
 //! ```
 
+use std::{
+    convert::{Infallible, TryFrom},
+    error::Error,
+    fmt::{self, Display, Formatter},
+    mem,
+};
+
 use bytes::BytesMut;
-use std::convert::{Infallible, TryFrom};
-use std::error::Error;
-use std::fmt::{self, Display, Formatter};
-use std::mem;
 
-use crate::header::map::HeaderMapExtension;
-use crate::header::name::{HeaderName, HeaderNameError};
-use crate::header::types::ContentLength;
-use crate::header::value::{HeaderValue, HeaderValueError};
-use crate::reason::{ReasonPhrase, ReasonPhraseError};
-use crate::response::{Builder as ResponseBuilder, Response};
-use crate::status::{StatusCode, StatusCodeError};
-use crate::version::{DecodeError as VersionDecodeError, Version};
-
-use crate::protocol::codec::decoder::{
-    self, DecodeResult as GenericDecodeResult, BODY_DEFAULT_MAX_LENGTH, HEADER_DEFAULT_MAX_COUNT,
-    HEADER_NAME_DEFAULT_MAX_LENGTH, HEADER_VALUE_DEFAULT_MAX_LENGTH,
-    REASON_PHRASE_DEFAULT_MAX_LENGTH,
+use crate::{
+    header::{
+        map::HeaderMapExtension,
+        name::{HeaderName, HeaderNameError},
+        types::ContentLength,
+        value::{HeaderValue, HeaderValueError},
+    },
+    protocol::codec::decoder::{
+        self, DecodeResult as GenericDecodeResult, BODY_DEFAULT_MAX_LENGTH,
+        HEADER_DEFAULT_MAX_COUNT, HEADER_NAME_DEFAULT_MAX_LENGTH, HEADER_VALUE_DEFAULT_MAX_LENGTH,
+        REASON_PHRASE_DEFAULT_MAX_LENGTH,
+    },
+    reason::{ReasonPhrase, ReasonPhraseError},
+    response::{Builder as ResponseBuilder, Response},
+    status::{StatusCode, StatusCodeError},
+    version::{DecodeError as VersionDecodeError, Version},
 };
 
 /// The current state of the response parsing.
@@ -265,9 +268,6 @@ pub type DecodeResult<TResult> = GenericDecodeResult<TResult, DecodeError>;
 /// # Examples
 ///
 /// ```
-/// # extern crate bytes;
-/// # extern crate rtsp;
-/// #
 /// use bytes::BytesMut;
 /// use std::convert::TryFrom;
 ///
@@ -339,9 +339,6 @@ impl Decoder {
     /// Decoding a full response:
     ///
     /// ```
-    /// # extern crate bytes;
-    /// # extern crate rtsp;
-    /// #
     /// use bytes::BytesMut;
     /// use std::convert::TryFrom;
     ///
@@ -372,9 +369,6 @@ impl Decoder {
     /// Decoding a partial response:
     ///
     /// ```
-    /// # extern crate bytes;
-    /// # extern crate rtsp;
-    /// #
     /// use bytes::BytesMut;
     /// use std::convert::TryFrom;
     ///
@@ -412,8 +406,7 @@ impl Decoder {
     where
         TBuffer: AsRef<[u8]>,
     {
-        use self::DecodeState::*;
-        use self::GenericDecodeResult::*;
+        use self::{DecodeState::*, GenericDecodeResult::*};
 
         let mut buffer = buffer.as_ref();
         let buffer_size = buffer.len();
@@ -647,9 +640,6 @@ impl Decoder {
     /// # Examples
     ///
     /// ```
-    /// # extern crate bytes;
-    /// # extern crate rtsp;
-    /// #
     /// use bytes::BytesMut;
     ///
     /// use rtsp::header::name::HeaderName;
@@ -684,9 +674,6 @@ impl Decoder {
     /// # Examples
     ///
     /// ```
-    /// # extern crate bytes;
-    /// # extern crate rtsp;
-    /// #
     /// use bytes::BytesMut;
     /// use std::convert::TryFrom;
     ///
@@ -839,13 +826,13 @@ impl From<VersionDecodeError> for DecodeError {
 
 #[cfg(test)]
 mod test {
-    use crate::header::name::HeaderNameError;
-    use crate::protocol::codec::decoder::response::{
-        ConfigBuilder, DecodeError, DecodeResult, Decoder,
+    use crate::{
+        header::name::HeaderNameError,
+        protocol::codec::decoder::response::{ConfigBuilder, DecodeError, DecodeResult, Decoder},
+        reason::ReasonPhraseError,
+        status::StatusCodeError,
+        version::DecodeError as VersionDecodeError,
     };
-    use crate::reason::ReasonPhraseError;
-    use crate::status::StatusCodeError;
-    use crate::version::DecodeError as VersionDecodeError;
 
     #[test]
     fn test_decoder_decode_body_invalid_content_length() {

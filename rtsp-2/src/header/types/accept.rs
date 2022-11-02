@@ -1,21 +1,23 @@
 use core::fmt;
-use std::convert::TryFrom;
-use std::f32;
-use std::fmt::{Error, Formatter};
-use std::hash::Hash;
-use std::iter::{once, FromIterator};
-use std::ops::{Deref, DerefMut};
-use std::str;
+use std::{
+    convert::TryFrom,
+    f32,
+    fmt::{Error, Formatter},
+    hash::Hash,
+    iter::{once, FromIterator},
+    ops::{Deref, DerefMut},
+    str,
+    string::ToString,
+};
 
-extern crate mime;
-use crate::header::map::TypedHeader;
-use crate::header::name::HeaderName;
-use crate::header::value::HeaderValue;
-use crate::syntax;
 use itertools::Itertools;
 use linked_hash_set::LinkedHashSet;
 use mime::Mime;
-use std::string::ToString;
+
+use crate::{
+    header::{map::TypedHeader, name::HeaderName, value::HeaderValue},
+    syntax,
+};
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub struct Accept(LinkedHashSet<MediaType>);

@@ -1,10 +1,7 @@
-#[macro_use]
-extern crate criterion;
-extern crate rtsp;
-
-use criterion::Criterion;
-use rtsp::protocol::codec::decoder::request::Decoder as RequestDecoder;
-use rtsp::protocol::codec::decoder::response::Decoder as ResponseDecoder;
+use criterion::{criterion_group, criterion_main, Criterion};
+use rtsp::protocol::codec::decoder::{
+    request::Decoder as RequestDecoder, response::Decoder as ResponseDecoder,
+};
 
 fn decode_benchmark(criterion: &mut Criterion) {
     criterion.bench_function("decode request", |bencher| {
