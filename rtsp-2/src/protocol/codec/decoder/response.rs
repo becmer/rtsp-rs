@@ -845,7 +845,7 @@ mod test {
     };
     use crate::reason::ReasonPhraseError;
     use crate::status::StatusCodeError;
-    use crate::version::VersionDecodeError;
+    use crate::version::DecodeError as VersionDecodeError;
 
     #[test]
     fn test_decoder_decode_body_invalid_content_length() {
@@ -1006,7 +1006,7 @@ mod test {
         assert_ne!(bytes_decoded, buffer.len());
         assert_eq!(
             result,
-            DecodeResult::Error(DecodeError::Version(VersionDecodeError::Unknown))
+            DecodeResult::Error(DecodeError::Version(VersionDecodeError::Unknown(2, 1)))
         );
     }
 

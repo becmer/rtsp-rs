@@ -1,8 +1,3 @@
-extern crate bytes;
-extern crate futures;
-extern crate rtsp;
-extern crate tokio;
-
 use bytes::BytesMut;
 use futures::Future;
 use rtsp::client::Client;
